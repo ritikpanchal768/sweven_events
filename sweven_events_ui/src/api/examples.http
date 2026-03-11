@@ -1,0 +1,395 @@
+### Sweven Events API Examples
+### Use with REST Client extension in VS Code or similar tools
+
+@baseUrl = https://api.swevenevents.com/v1
+@userToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+@organizerToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+
+### ========================================
+### EVENTS API
+### ========================================
+
+### 1. Get All Events
+GET {{baseUrl}}/events
+Content-Type: application/json
+
+### 2. Get Events with Filters
+GET {{baseUrl}}/events?city=Los%20Angeles&category=Music&featured=true&page=1&limit=10
+Content-Type: application/json
+
+### 3. Get Event by ID
+GET {{baseUrl}}/events/evt_1a2b3c4d5e
+Content-Type: application/json
+
+### 4. Search Events
+GET {{baseUrl}}/events/search?q=festival&city=Miami
+Content-Type: application/json
+
+### ========================================
+### BOOKINGS API
+### ========================================
+
+### 5. Create Booking
+POST {{baseUrl}}/bookings
+Content-Type: application/json
+Authorization: Bearer {{userToken}}
+
+{
+  "eventId": "evt_1a2b3c4d5e",
+  "ticketTierId": "tier_abc123",
+  "quantity": 2,
+  "attendee": {
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john.doe@example.com",
+    "phone": "+1-555-0199"
+  },
+  "addOns": ["addon_1", "addon_2"],
+  "promoCode": "EARLYBIRD",
+  "paymentMethod": {
+    "type": "card",
+    "token": "tok_visa_4242424242424242"
+  }
+}
+
+### 6. Get User Bookings
+GET {{baseUrl}}/bookings?status=confirmed&page=1&limit=20
+Content-Type: application/json
+Authorization: Bearer {{userToken}}
+
+### 7. Get Booking Details
+GET {{baseUrl}}/bookings/bkg_9z8y7x6w5v
+Content-Type: application/json
+Authorization: Bearer {{userToken}}
+
+### 8. Cancel Booking
+DELETE {{baseUrl}}/bookings/bkg_9z8y7x6w5v
+Content-Type: application/json
+Authorization: Bearer {{userToken}}
+
+### 9. Download Ticket PDF
+GET {{baseUrl}}/bookings/bkg_9z8y7x6w5v/tickets/download
+Authorization: Bearer {{userToken}}
+
+### ========================================
+### PROMO CODES API
+### ========================================
+
+### 10. Validate Promo Code
+POST {{baseUrl}}/promo-codes/validate
+Content-Type: application/json
+
+{
+  "code": "EARLYBIRD",
+  "eventId": "evt_1a2b3c4d5e",
+  "ticketTierId": "tier_abc123",
+  "quantity": 2
+}
+
+### ========================================
+### ORGANIZER API
+### ========================================
+
+### 11. Create Event
+POST {{baseUrl}}/organizer/events
+Content-Type: application/json
+Authorization: Bearer {{organizerToken}}
+
+{
+  "title": "Summer Music Festival 2026",
+  "subtitle": "The hottest acts of summer",
+  "description": "Join us for an unforgettable weekend of music, food, and fun under the stars.",
+  "category": "Music",
+  "date": "2026-07-15T17:00:00Z",
+  "endDate": "2026-07-17T23:00:00Z",
+  "venue": {
+    "name": "Beachside Arena",
+    "address": "123 Ocean Drive",
+    "city": "Miami",
+    "state": "FL",
+    "zipCode": "33139",
+    "coordinates": {
+      "lat": 25.7617,
+      "lng": -80.1918
+    }
+  },
+  "ticketTiers": [
+    {
+      "name": "General Admission",
+      "price": 99.00,
+      "description": "Standard entry with access to all stages",
+      "totalSeats": 5000,
+      "features": ["All stages access", "Festival grounds", "Food court"]
+    },
+    {
+      "name": "VIP Pass",
+      "price": 299.00,
+      "description": "Premium experience with exclusive perks",
+      "totalSeats": 500,
+      "features": ["VIP lounge", "Premium viewing areas", "Complimentary drinks", "Fast-track entry"]
+    }
+  ],
+  "tags": ["Music", "Festival", "Summer"],
+  "isFeatured": false,
+  "status": "draft"
+}
+
+### 12. Update Event
+PUT {{baseUrl}}/organizer/events/evt_1a2b3c4d5e
+Content-Type: application/json
+Authorization: Bearer {{organizerToken}}
+
+{
+  "title": "Updated Event Title",
+  "status": "published"
+}
+
+### 13. Get Organizer Events
+GET {{baseUrl}}/organizer/events?status=published&page=1&limit=20
+Content-Type: application/json
+Authorization: Bearer {{organizerToken}}
+
+### 14. Get Event Analytics
+GET {{baseUrl}}/organizer/events/evt_1a2b3c4d5e/analytics?period=30d
+Content-Type: application/json
+Authorization: Bearer {{organizerToken}}
+
+### 15. Get Real-Time Event Stats
+GET {{baseUrl}}/organizer/events/evt_1a2b3c4d5e/stats/realtime
+Content-Type: application/json
+Authorization: Bearer {{organizerToken}}
+
+### 16. Export Event Attendees
+GET {{baseUrl}}/organizer/events/evt_1a2b3c4d5e/attendees/export?format=csv
+Content-Type: application/json
+Authorization: Bearer {{organizerToken}}
+
+### 17. Create Promo Code
+POST {{baseUrl}}/organizer/events/evt_1a2b3c4d5e/promo-codes
+Content-Type: application/json
+Authorization: Bearer {{organizerToken}}
+
+{
+  "code": "SUMMER25",
+  "discountType": "percentage",
+  "discountValue": 25,
+  "maxUses": 100,
+  "validFrom": "2026-06-01T00:00:00Z",
+  "validUntil": "2026-06-15T23:59:59Z",
+  "applicableTiers": ["tier_abc123", "tier_def456"],
+  "minimumPurchase": 1
+}
+
+### 18. Get Promo Codes
+GET {{baseUrl}}/organizer/events/evt_1a2b3c4d5e/promo-codes
+Content-Type: application/json
+Authorization: Bearer {{organizerToken}}
+
+### 19. Deactivate Promo Code
+DELETE {{baseUrl}}/organizer/promo-codes/promo_xyz123
+Content-Type: application/json
+Authorization: Bearer {{organizerToken}}
+
+### ========================================
+### NOTIFICATIONS API
+### ========================================
+
+### 20. Send Event Reminder
+POST {{baseUrl}}/organizer/events/evt_1a2b3c4d5e/notifications
+Content-Type: application/json
+Authorization: Bearer {{organizerToken}}
+
+{
+  "type": "reminder",
+  "channel": ["email", "sms"],
+  "template": "event_reminder_24h",
+  "scheduledFor": "2026-03-14T18:00:00Z",
+  "recipientFilter": {
+    "bookingStatus": "confirmed"
+  }
+}
+
+### 21. Send Event Update
+POST {{baseUrl}}/organizer/events/evt_1a2b3c4d5e/notifications
+Content-Type: application/json
+Authorization: Bearer {{organizerToken}}
+
+{
+  "type": "update",
+  "channel": ["email"],
+  "template": "event_update",
+  "subject": "Important Update: Event Time Changed",
+  "message": "Due to weather conditions, the event start time has been moved to 7 PM.",
+  "recipientFilter": {
+    "bookingStatus": "confirmed"
+  }
+}
+
+### ========================================
+### AUTHENTICATION API
+### ========================================
+
+### 22. User Registration
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "john.doe@example.com",
+  "password": "securePassword123",
+  "phone": "+1-555-0199"
+}
+
+### 23. User Login
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "john.doe@example.com",
+  "password": "securePassword123"
+}
+
+### 24. Organizer Login
+POST {{baseUrl}}/auth/organizer/login
+Content-Type: application/json
+
+{
+  "email": "organizer@swevenevents.com",
+  "password": "secureOrgPassword123"
+}
+
+### 25. Refresh Token
+POST {{baseUrl}}/auth/refresh
+Content-Type: application/json
+
+{
+  "refreshToken": "ref_tok_xyz789..."
+}
+
+### 26. Logout
+POST {{baseUrl}}/auth/logout
+Content-Type: application/json
+Authorization: Bearer {{userToken}}
+
+### 27. Reset Password Request
+POST {{baseUrl}}/auth/password/reset-request
+Content-Type: application/json
+
+{
+  "email": "john.doe@example.com"
+}
+
+### 28. Reset Password
+POST {{baseUrl}}/auth/password/reset
+Content-Type: application/json
+
+{
+  "token": "reset_token_abc123",
+  "newPassword": "newSecurePassword123"
+}
+
+### ========================================
+### TICKET SCANNING API
+### ========================================
+
+### 29. Validate Ticket
+POST {{baseUrl}}/tickets/validate
+Content-Type: application/json
+Authorization: Bearer {{organizerToken}}
+
+{
+  "ticketNumber": "SWE-001-2026-001",
+  "eventId": "evt_1a2b3c4d5e"
+}
+
+### 30. Check-in Ticket
+POST {{baseUrl}}/tickets/checkin
+Content-Type: application/json
+Authorization: Bearer {{organizerToken}}
+
+{
+  "ticketId": "tkt_001",
+  "eventId": "evt_1a2b3c4d5e",
+  "checkinTime": "2026-03-15T18:15:00Z",
+  "location": "Main Entrance"
+}
+
+### ========================================
+### PAYMENT API
+### ========================================
+
+### 31. Create Payment Intent
+POST {{baseUrl}}/payments/intent
+Content-Type: application/json
+Authorization: Bearer {{userToken}}
+
+{
+  "amount": 235.62,
+  "currency": "USD",
+  "bookingId": "bkg_9z8y7x6w5v"
+}
+
+### 32. Process Refund
+POST {{baseUrl}}/payments/refund
+Content-Type: application/json
+Authorization: Bearer {{organizerToken}}
+
+{
+  "bookingId": "bkg_9z8y7x6w5v",
+  "amount": 235.62,
+  "reason": "event_cancelled"
+}
+
+### ========================================
+### ANALYTICS & REPORTING
+### ========================================
+
+### 33. Get Dashboard Summary
+GET {{baseUrl}}/organizer/dashboard/summary
+Content-Type: application/json
+Authorization: Bearer {{organizerToken}}
+
+### 34. Get Revenue Report
+GET {{baseUrl}}/organizer/reports/revenue?startDate=2026-01-01&endDate=2026-12-31
+Content-Type: application/json
+Authorization: Bearer {{organizerToken}}
+
+### 35. Get Booking Trends
+GET {{baseUrl}}/organizer/analytics/booking-trends?eventId=evt_1a2b3c4d5e&period=30d
+Content-Type: application/json
+Authorization: Bearer {{organizerToken}}
+
+### ========================================
+### WEBHOOKS
+### ========================================
+
+### 36. List Webhooks
+GET {{baseUrl}}/organizer/webhooks
+Content-Type: application/json
+Authorization: Bearer {{organizerToken}}
+
+### 37. Create Webhook
+POST {{baseUrl}}/organizer/webhooks
+Content-Type: application/json
+Authorization: Bearer {{organizerToken}}
+
+{
+  "url": "https://your-domain.com/webhooks/sweven-events",
+  "events": [
+    "booking.created",
+    "booking.confirmed",
+    "booking.cancelled",
+    "payment.completed"
+  ],
+  "secret": "whsec_your_webhook_secret"
+}
+
+### 38. Test Webhook
+POST {{baseUrl}}/organizer/webhooks/wh_abc123/test
+Content-Type: application/json
+Authorization: Bearer {{organizerToken}}
+
+{
+  "eventType": "booking.created"
+}
