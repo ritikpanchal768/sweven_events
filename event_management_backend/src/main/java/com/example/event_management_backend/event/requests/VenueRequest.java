@@ -8,6 +8,7 @@ public class VenueRequest {
     private String state;
     private String zipCode;
     private Coordinates coordinates;
+    private String venueMap;
 
     public VenueRequest() {
     }
@@ -58,5 +59,13 @@ public class VenueRequest {
 
     public void setCoordinates(Coordinates coordinates) {
         this.coordinates = coordinates;
+    }
+
+    public String getVenueMap() {
+        return venueMap;
+    }
+
+    public void setVenueMap(String venueMap) {
+        this.venueMap = venueMap;
     }
 }

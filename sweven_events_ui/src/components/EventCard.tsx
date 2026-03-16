@@ -88,7 +88,7 @@ export function EventCard({ event, onClick, featured = false }: EventCardProps) 
           <div>
             <p className="text-xs text-zinc-500">Starting from</p>
             <p className="text-2xl font-bold text-white">
-              ${startingPrice}
+              ₹{startingPrice}
               <span className="text-sm text-zinc-500 font-normal ml-1">/ ticket</span>
             </p>
           </div>

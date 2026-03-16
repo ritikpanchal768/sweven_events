@@ -236,7 +236,7 @@ export function BookingModal({ event, onClose }: BookingModalProps) {
                         <p className="text-sm text-zinc-400 mt-1">{tier.description}</p>
                       </div>
                       <div className="text-right">
-                        <p className="text-2xl font-bold text-white">${tier.price}</p>
+                        <p className="text-2xl font-bold text-white">₹{tier.price}</p>
                         <p className="text-xs text-zinc-500">{tier.seatsAvailable} available</p>
                       </div>
                     </div>
@@ -274,7 +274,7 @@ export function BookingModal({ event, onClose }: BookingModalProps) {
                       </button>
                       <div className="ml-auto text-right">
                         <p className="text-sm text-zinc-500">Subtotal</p>
-                        <p className="text-xl font-bold text-white">${subtotal}</p>
+                        <p className="text-xl font-bold text-white">₹{subtotal}</p>
                       </div>
                     </div>
                   </div>
@@ -310,7 +310,7 @@ export function BookingModal({ event, onClose }: BookingModalProps) {
                         <p className="text-sm text-zinc-400 mt-1">{addon.description}</p>
                       </div>
                       <div className="flex items-center gap-4">
-                        <p className="text-xl font-bold text-white">${addon.price}</p>
+                        <p className="text-xl font-bold text-white">₹{addon.price}</p>
                         <div className={`w-6 h-6 rounded-md border-2 flex items-center justify-center ${
                           selectedAddOns.includes(addon.id)
                             ? 'border-cyan-500 bg-cyan-500'

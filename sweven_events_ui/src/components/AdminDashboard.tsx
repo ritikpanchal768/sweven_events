@@ -154,6 +154,7 @@ export function AdminDashboard({ onClose, onLogout }: AdminDashboardProps) {
     address: '',
     state: '',
     zipCode: '',
+    mapUrl: '',
     totalSeats: '',
     ticketTiers: [
       {
@@ -448,7 +449,8 @@ export function AdminDashboard({ onClose, onLogout }: AdminDashboardProps) {
           address: eventForm.address,
           city: eventForm.city,
           state: eventForm.state,
-          zipCode: eventForm.zipCode
+          zipCode: eventForm.zipCode,
+          venueMap: eventForm.mapUrl
         },
         ticketTiers: eventForm.ticketTiers.map(tier => ({
           name: tier.tierName,
@@ -812,6 +814,20 @@ export function AdminDashboard({ onClose, onLogout }: AdminDashboardProps) {
                         onChange={handleChange}
                         type="text"
                         className="w-full px-4 py-3 rounded-xl bg-zinc-900 border border-zinc-800 text-white focus:border-cyan-500 focus:outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm text-zinc-400 mb-2">
+                        Google Maps URL
+                      </label>
+
+                      <input
+                        name="mapUrl"
+                        value={eventForm.mapUrl}
+                        onChange={handleChange}
+                        type="text"
+                        placeholder="https://maps.google.com/?q=28.6139,77.2090"
+                        className="w-full px-4 py-3 rounded-xl bg-zinc-900 border border-zinc-800 text-white"
                       />
                     </div>
                   </div>

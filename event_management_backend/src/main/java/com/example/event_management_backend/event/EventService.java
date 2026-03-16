@@ -1,5 +1,6 @@
 package com.example.event_management_backend.event;
 
+import java.util.regex.*;
 import com.example.event_management_backend.auth.dtos.Organizer;
 import com.example.event_management_backend.auth.repository.OrganizerRepository;
 import com.example.event_management_backend.event.dtos.*;
@@ -71,6 +72,8 @@ public class EventService {
         event.setVenueZipCode(request.getVenue().getZipCode());
 
         event.setTotalSeats(request.getTotalSeats());
+
+        extractLatLong(request.getVenue().getVenueMap(),request);
 
         if(request.getVenue().getCoordinates()== null || request.getVenue().getCoordinates().getLat() == null){
             event.setLatitude((double) 0);
@@ -204,6 +207,27 @@ public class EventService {
 
                 faqRepository.save(faq);
             }
+        }
+    }
+
+
+
+
+    public void extractLatLong(String mapUrl,CreateEventRequest request) {
+
+
+        Pattern pattern = Pattern.compile("(-?\\d+\\.\\d+),(-?\\d+\\.\\d+)");
+        Matcher matcher = pattern.matcher(mapUrl);
+
+        if (matcher.find()) {
+            double lat = Double.parseDouble(matcher.group(1));
+            double lng = Double.parseDouble(matcher.group(2));
+            VenueRequest venueRequest = new VenueRequest();
+            Coordinates coordinates = new Coordinates();
+            coordinates.setLng(lng);
+            coordinates.setLat(lat);
+            venueRequest.setCoordinates(coordinates);
+            request.setVenue(venueRequest);
         }
     }
 

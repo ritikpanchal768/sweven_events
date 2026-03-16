@@ -441,7 +441,7 @@ function App() {
 
               <div className="flex flex-col items-center">
                 <span className="text-3xl font-bold text-cyan-400">
-                  $
+                  ₹
                   {Math.min(
                     ...featuredEvent.ticketTiers.map(t => t.price)
                   )}
@@ -529,7 +529,7 @@ function App() {
 
           <Slider {...carouselSettings} className="event-carousel">
             {upcomingEvents
-              .filter(event => event.id !== featuredEvent?.id)
+              // .filter(event => event.id !== featuredEvent?.id). -- KEEP ALL UPCOMING EVENTS
               .map(event => (
               <div key={event.id} className="px-3">
                 <EventCard
